@@ -5,7 +5,7 @@ import { AppService } from './app.service';
 import { HotTableModule, HotTableRegisterer } from '@handsontable/angular';
 import Handsontable from 'handsontable';
 import { registerAllModules } from 'handsontable/registry';
-import { Record, Stock } from './model/stock.model';
+import { Stock } from './model/stock.model';
 import { FormsModule } from '@angular/forms';
 registerAllModules();
 
@@ -111,74 +111,93 @@ export class AppComponent implements OnInit {
   }
 
   setTimeStamp() {
-    this.columnsData = [
-      {
-        data: 'company',
-        title: 'COMPANY',
-        width: 150,
-      },
-    ];
-    let c = new Date();
+    // this.columnsData = [];
+    // let c = new Date();
 
-    let s = new Date(new Date().setHours(9, 15));
-    let e = new Date(new Date().setHours(15, 30));
+    // let s = new Date(new Date().setHours(9, 15));
+    // let e = new Date(new Date().setHours(15, 30));
 
-    if (s.getTime() > c.getTime()) {
-      console.log('no data');
-      return;
-    }
+    // if (s.getTime() > c.getTime()) {
+    //   console.log('no data');
+    //   return;
+    // }
 
-    if (s.getTime() < c.getTime() && e.getTime() > c.getTime()) {
-      e = c;
-    }
+    // if (s.getTime() < c.getTime() && e.getTime() > c.getTime()) {
+    //   e = c;
+    // }
 
-    const hot = this.hotRegisterer.getInstance(this.id);
-    let count = 0;
-    while (s.getTime() <= e.getTime() && count != 30) {
-      count++;
-      let t =
-        e.getHours().toString().padStart(2, '0') +
-        ':' +
-        e.getMinutes().toString().padStart(2, '0');
+    // const hot = this.hotRegisterer.getInstance(this.id);
+    // let count = 0;
+    // while (s.getTime() <= e.getTime() && count != 30) {
+    //   count++;
+    //   let t =
+    //     e.getHours().toString().padStart(2, '0') +
+    //     ':' +
+    //     e.getMinutes().toString().padStart(2, '0');
 
-      this.columnsData.push({
-        data: 'records.' + t,
-        title: t,
-        width: 35,
-        renderer: this.PriceRender,
-      });
-      e.setMinutes(e.getMinutes() - this.selectMin);
-    }
-    hot.updateSettings({ columns: this.columnsData });
+    //   this.columnsData.unshift({
+    //     data: 'records.' + t,
+    //     title: t,
+    //     width: 35,
+    //     // renderer: this.PriceRender,
+    //   });
+    //   e.setMinutes(e.getMinutes() - this.selectMin);
+    //   this.columnsData.unshift({
+    //     data: 'company',
+    //     title: 'COMPANY',
+    //     width: 150,
+    //   });
+    // }
+
+    // hot.updateSettings({ columns: this.columnsData });
+
+    this.fetchData();
   }
 
-  PriceRender = (
-    instance: Handsontable.Core,
-    TD: HTMLTableCellElement,
-    row: number,
-    col: number,
-    prop: string | number,
-    value: Record,
-    cellProperties: Handsontable.CellProperties
-  ) => {
-    if (!value) {
-      TD.innerHTML = '';
-      return;
-    }
-    cellProperties.comment = {
-      value: value.price,
-      style: { width: 80, height: 35 },
-      readOnly: true,
-    };
-    TD.innerHTML = value.percentage;
-  };
+  // PriceRender = (
+  //   instance: Handsontable.Core,
+  //   TD: HTMLTableCellElement,
+  //   row: number,
+  //   col: number,
+  //   prop: string | number,
+  //   value: Record,
+  //   cellProperties: Handsontable.CellProperties
+  // ) => {
+  //   if (!value) {
+  //     TD.innerHTML = '';
+  //     return;
+  //   }
+  //   cellProperties.comment = {
+  //     value: value.price,
+  //     style: { width: 80, height: 35 },
+  //     readOnly: true,
+  //   };
+  //   TD.innerHTML = value.percentage;
+  // };
+  // compLinkRender = (
+  //   instance: Handsontable.Core,
+  //   TD: HTMLTableCellElement,
+  //   row: number,
+  //   col: number,
+  //   prop: string | number,
+  //   value: Record,
+  //   cellProperties: Handsontable.CellProperties
+  // ) => {
+  //   cellProperties.comment = {
+  //     value: 'this.data[row][col]',
+  //     style: { width: 80, height: 35 },
+  //     readOnly: true,
+  //   };
+  //   console.log('🚀 ~ this.data[row]:', this.data[row]);
+  // };
+
   fetchData() {
     if (this.setdate > this.setCurrentDate) {
       return;
     }
 
     let c = new Date();
-    let s = new Date(new Date().setHours(9, 15));
+    let s = new Date(new Date().setHours(9, 14));
     let e = new Date(new Date().setHours(15, 30));
     if (this.setdate == this.setCurrentDate) {
       if (s.getTime() > c.getTime()) {
@@ -192,26 +211,18 @@ export class AppComponent implements OnInit {
     this.service.getData(this.setdate).subscribe((res) => {
       const hot = this.hotRegisterer.getInstance(this.id);
       this.data = res;
-      this.columnsData = [
-        {
-          data: 'company',
-          title: 'COMPANY',
-          width: 150,
-        },
-      ];
-      let count = 0;
-      while (s.getTime() < e.getTime() && count !== 30) {
-        count++;
+      this.columnsData = [];
+      while (s.getTime() < e.getTime()) {
         let t =
           e.getHours().toString().padStart(2, '0') +
           ':' +
           e.getMinutes().toString().padStart(2, '0');
 
-        this.columnsData.push({
-          data: 'records.' + t,
+        this.columnsData.unshift({
+          data: 'records.' + t + '.price',
           title: t,
           width: 35,
-          renderer: this.PriceRender,
+          // renderer: this.PriceRender,
         });
         e.setMinutes(e.getMinutes() - this.selectMin);
       }
@@ -232,8 +243,21 @@ export class AppComponent implements OnInit {
       //   width: 35,
       //   renderer: this.PriceRender,
       // });
-
+      this.columnsData.unshift({
+        data: 'link',
+        title: 'COMPANY',
+        width: 150,
+        renderer: 'html',
+      });
       hot.updateSettings({ columns: this.columnsData, data: this.data });
+      console.log('=====>', this.columnsData.length);
+
+      hot.scrollViewportTo({
+        row: 10,
+        col: this.columnsData.length - 1,
+        verticalSnap: 'bottom',
+        horizontalSnap: 'end',
+      });
     });
   }
   getDataWithDate() {

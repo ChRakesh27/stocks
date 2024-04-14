@@ -10,5 +10,5 @@ current_datetime = datetime.now()
 
 client = MongoClient(MONGODB_URL)
 db = client.get_database('stocks-market')
-# collection = db.get_collection(current_datetime.strftime("%Y-%m-%d"))
-collection = db.get_collection("2023-04-13")
+collection = db.get_collection(current_datetime.strftime("%Y-%m-%d"))
+# collection = db.get_collection("2024-04-13")

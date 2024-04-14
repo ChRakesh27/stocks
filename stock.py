@@ -25,8 +25,8 @@ def fetch_data():
             company = columns[0].find('a').text.strip()
             market_price = columns[2].text.strip()
             percet = market_price.split()
-            
-            filter = {'company': company}
+            link= "<a href='https://groww.in"+columns[0].find('a').get('href')+"'target='_blank'>"+company +"</a>"
+            filter = {'company': company, "link":link}
 
             key = current_datetime.strftime("%H:%M")
             # key = "10:20"

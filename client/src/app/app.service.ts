@@ -6,7 +6,8 @@ import { Observable, Subject } from 'rxjs';
   providedIn: 'root',
 })
 export class AppService {
-  API_HOST = 'http://localhost:5000';
+  // API_HOST = 'http://localhost:5000';
+  API_HOST = 'https://stocks-2ipt.onrender.com';
 
   constructor(private httpClient: HttpClient) {}
 
