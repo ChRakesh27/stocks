@@ -101,13 +101,14 @@ export class AppComponent implements OnInit {
     //   hot.updateSettings({ columns: this.columnsData, data: this.data });
     // });
 
-    // setInterval(() => {
-    //   this.service.getData().subscribe((res) => {
-    //     this.data = res;
-    //     this.title++;
-    //     console.log('🚀 ~  this.data:', res[0]);
-    //   });
-    // }, 60000);
+    setInterval(() => {
+      // this.service.getData().subscribe((res) => {
+      //   this.data = res;
+      //   this.title++;
+      //   console.log('🚀 ~  this.data:', res[0]);
+      // });
+      this.fetchData();
+    }, 60000);
   }
 
   setTimeStamp() {
