@@ -41,9 +41,6 @@ def fetch_data():
                     }
                 }
             }
-
-            print("====>",update)
-
             result = db.collection.update_many(filter, update, upsert=True)
     # print(dataSet)
     
@@ -54,15 +51,13 @@ while True:
     current_datetime = datetime.now()
     currentTime = current_datetime.strftime("%H:%M:%S")
     if currentTime>startTime and currentTime<endTime:
+        print("fetching..")
         fetch_data()
         time.sleep(60)
     else:
         print("TimeOut",currentTime)
         time.sleep(1)
 
-# # 30hr 15 min
-# # 1815 min
-# # 108900 sec
 
 # fetch_data()
 # time.sleep(60)
