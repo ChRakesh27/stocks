@@ -1,0 +1,45 @@
+<!-- @if(data.length!=0){ -->
+<div class="">
+    <div class="mt-5">
+        <input type="date" class="ms-3 me-3" [(ngModel)]="setdate" (ngModelChange)="getDataWithDate()">
+        <input type="radio" class="btn-check" name="timeSet" id="1m" autocomplete="off" value=1 [(ngModel)]="selectMin"
+            (ngModelChange)="setTimeStamp()" checked>
+        <label class="btn btn-outline-primary" for="1m">1m</label>
+
+        <input type="radio" class="btn-check" name="timeSet" id="3m" autocomplete="off" value=3 [(ngModel)]="selectMin"
+            (ngModelChange)="setTimeStamp()">
+        <label class="btn btn-outline-primary" for="3m">3m</label>
+
+        <input type="radio" class="btn-check" name="timeSet" id="5m" autocomplete="off" value=5 [(ngModel)]="selectMin"
+            (ngModelChange)="setTimeStamp()">
+        <label class="btn btn-outline-primary" for="5m">5m</label>
+
+        <input type="radio" class="btn-check" name="timeSet" id="10m" autocomplete="off" value=10
+            [(ngModel)]="selectMin" (ngModelChange)="setTimeStamp()">
+        <label class="btn btn-outline-primary" for="10m">10m</label>
+
+        <input type="radio" class="btn-check" name="timeSet" id="15m" autocomplete="off" value=15
+            [(ngModel)]="selectMin" (ngModelChange)="setTimeStamp()">
+        <label class="btn btn-outline-primary" for="15m">15m</label>
+
+        <input type="radio" class="btn-check" name="timeSet" id="30m" autocomplete="off" value=30
+            [(ngModel)]="selectMin" (ngModelChange)="setTimeStamp()">
+        <label class="btn btn-outline-primary" for="30m">30m</label>
+
+        <input type="radio" class="btn-check" name="timeSet" id="60m" autocomplete="off" value=60
+            [(ngModel)]="selectMin" (ngModelChange)="setTimeStamp()">
+        <label class="btn btn-outline-primary" for="60m">60m</label>
+
+        <input type="radio" class="btn-check" name="timeSet" id="75m" autocomplete="off" value=75
+            [(ngModel)]="selectMin" (ngModelChange)="setTimeStamp()">
+        <label class="btn btn-outline-primary" for="75m">75m</label>
+    </div>
+    <div class="mt-5">
+
+        <hot-table class="hot" [hotId]="id" [settings]="hotSettings" licenseKey="non-commercial-and-evaluation">
+        </hot-table>
+    </div>
+</div>
+<!-- }@else{
+<h1>Data Not Found</h1>
+} -->
