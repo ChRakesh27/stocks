@@ -2,11 +2,16 @@ from datetime import datetime
 from pymongo import MongoClient
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
 current_datetime = datetime.now()
-MONGODB_URL= "mongodb+srv://user:user1234@questions.g0dpi3d.mongodb.net/stocks-market?retryWrites=true&w=majority"
+
+MONGODB_URL= os.getenv("MONGODB_URL")
 
 client = MongoClient(MONGODB_URL)
 

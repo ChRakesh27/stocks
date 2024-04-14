@@ -1,7 +1,11 @@
 from pymongo import MongoClient
 from datetime import datetime
+from dotenv import load_dotenv
+import os
 
-MONGODB_URL= "mongodb+srv://user:user1234@questions.g0dpi3d.mongodb.net/stocks-market?retryWrites=true&w=majority"
+load_dotenv()
+
+MONGODB_URL= os.getenv("MONGODB_URL")
 current_datetime = datetime.now()
 
 client = MongoClient(MONGODB_URL)
