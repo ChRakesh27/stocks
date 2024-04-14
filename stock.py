@@ -1,15 +1,16 @@
 from bs4 import BeautifulSoup
 from selenium import webdriver
-import time
-from apscheduler.schedulers.background import BackgroundScheduler
 from datetime import datetime
 import db
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.service import Service
 
 url = "https://groww.in/markets/top-gainers?index=GIDXNIFTY100"
 
 def fetch_data():
     current_datetime = datetime.now()
-    driver = webdriver.Chrome()
+    s=Service(ChromeDriverManager().install())
+    driver = webdriver.Chrome(service=s)
     driver.get(url)
     page_source = driver.page_source
 
@@ -41,26 +42,26 @@ def fetch_data():
                     }
                 }
             }
+            print("=>",update)
             result = db.collection.update_many(filter, update, upsert=True)
     # print(dataSet)
     
 startTime="09:15"
 endTime="15:30"
 
-while True:
-    current_datetime = datetime.now()
-    currentTime = current_datetime.strftime("%H:%M:%S")
-    print("🚀 ~ currentTime>startTime and currentTime<endTime:", currentTime>startTime and currentTime<endTime)
-    if currentTime>startTime and currentTime<endTime:
-        print("fetching..")
-        fetch_data()
-        time.sleep(60)
-    else:
-        print("TimeOut",currentTime)
-        time.sleep(1)
+# while True:
+#     current_datetime = datetime.now()
+#     currentTime = current_datetime.strftime("%H:%M:%S")
+#     if currentTime>startTime and currentTime<endTime:
+#         print("fetching..")
+#         fetch_data()
+#         time.sleep(60)
+#     else:
+#         print("TimeOut",currentTime)
+#         time.sleep(1)
 
 
-# fetch_data()
+fetch_data()
 # time.sleep(60)
 # fetch_data()
     
