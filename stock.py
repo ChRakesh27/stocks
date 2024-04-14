@@ -50,6 +50,7 @@ endTime="15:30"
 while True:
     current_datetime = datetime.now()
     currentTime = current_datetime.strftime("%H:%M:%S")
+    print("🚀 ~ currentTime>startTime and currentTime<endTime:", currentTime>startTime and currentTime<endTime)
     if currentTime>startTime and currentTime<endTime:
         print("fetching..")
         fetch_data()
