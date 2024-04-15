@@ -10,26 +10,27 @@ import time
 url = "https://groww.in/markets/top-gainers?index=GIDXNIFTY100"
 driver = webdriver.Chrome()
 driver.get(url)
-startTime="09:15"
-endTime="15:30"
+
 def fetch_data():
     current_datetime = datetime.now()
     currentTime = current_datetime.strftime("%H:%M:%S")
-    driver.refresh()
     if currentTime>startTime and currentTime<endTime:
         print("fetching..")
     else:
         print("TimeOut",currentTime)
-        # time.sleep(1)
-        # fetch_data()
-        # return
+        time.sleep(1)
+        fetch_data()
+        return
     # options = Options()
     # options.add_argument("--headless")
     # options.add_argument("--disable-gpu")
     # options.add_argument("--window-size=1920,1200")
     # s=Service(ChromeDriverManager().install())
     # driver = webdriver.Chrome(service=s, options=options)
+    
+    driver.refresh()
     page_source = driver.page_source
+   
     soup = BeautifulSoup(page_source, 'html.parser')
     update={}
     table = soup.find('table', class_='tb10Table')
@@ -46,6 +47,7 @@ def fetch_data():
             filter = {'company': company, "link":link}
 
             key = current_datetime.strftime("%H:%M")
+            # key = "09:17"
             place+=1
             count+=1
             htmlPlace=""
@@ -65,9 +67,31 @@ def fetch_data():
                 }
             }
             print("=>",update)
-            # result = db.collection.update_many(filter, update, upsert=True)
+            result = db.collection.update_many(filter, update, upsert=True)
+    # print(dataSet)
+    # time.sleep(60)
+    # fetch_data()
     time.sleep(60)
     fetch_data()
     return
+    
+startTime="09:15"
+endTime="15:30"
+
+# while True:
+#     current_datetime = datetime.now()
+#     currentTime = current_datetime.strftime("%H:%M:%S")
+#     if currentTime>startTime and currentTime<endTime:
+#         print("fetching..")
+#         fetch_data()
+#         time.sleep(60)
+#     else:
+#         print("TimeOut",currentTime)
+#         time.sleep(1)
+
 
 fetch_data()
+# time.sleep(10)
+# fetch_data()
+    
+   
