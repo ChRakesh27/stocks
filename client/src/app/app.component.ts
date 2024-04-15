@@ -25,40 +25,24 @@ export class AppComponent implements OnInit {
   setCurrentDate = '';
   selectMin = 1;
   private hotRegisterer = new HotTableRegisterer();
-  columnsData: Handsontable.ColumnSettings[] = [
-    {
-      data: 'company',
-      title: 'COMPANY',
-      width: 150,
-    },
-  ];
+  columnsData: Handsontable.ColumnSettings[] = [];
 
   hotSettings: Handsontable.GridSettings = {
     columns: this.columnsData,
-    className: 'htCenter htMiddle',
+    className: 'htCenter ',
     rowHeaders: true,
-    columnHeaderHeight: 30,
+    columnHeaderHeight: 10,
     multiColumnSorting: true,
     manualColumnResize: true,
     // filters: true,
     manualColumnMove: true,
-    rowHeights: 30,
+    rowHeights: 10,
     comments: true,
     width: '100%',
     height: '85vh',
     fixedColumnsStart: 1,
-    viewportColumnRenderingOffset: 40,
-    viewportRowRenderingOffset: 'auto',
-    // autoColumnSize: {
-    //   // keep 40% of columns in sync (the rest of columns: async)
-    //   syncLimit: '1%',
-    //   // when calculating column widths, use column headers
-    //   useHeaders: true,
-    //   // when calculating column widths, use 10 samples of the same length
-    //   samplingRatio: 10,
-    //   // when calculating column widths, allow duplicate samples
-    //   allowSampleDuplicates: true,
-    // },
+    // viewportColumnRenderingOffset: 40,
+    // viewportRowRenderingOffset: 'auto',
     // dropdownMenu: ['filter_by_value', 'filter_operators', 'filter_action_bar'],
   };
 
@@ -230,9 +214,11 @@ export class AppComponent implements OnInit {
           e.getMinutes().toString().padStart(2, '0');
 
         this.columnsData.unshift({
-          data: 'records.' + t + '.percentage',
+          // data: 'records.' + t + '.percentage',
+          data: 'records.' + t + '.pric_perc_Place',
           title: t,
-          width: 35,
+          width: 75,
+          renderer: 'html',
           // renderer: this.PriceRender,
         });
         e.setMinutes(e.getMinutes() - this.selectMin);

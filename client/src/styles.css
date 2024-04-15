@@ -4,3 +4,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.pos_red {
+  color: red;
+}
