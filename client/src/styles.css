@@ -1,1 +1,6 @@
 @import "handsontable/dist/handsontable.min.css";
+.handsontable .wraptext {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

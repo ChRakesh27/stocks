@@ -49,6 +49,16 @@ export class AppComponent implements OnInit {
     fixedColumnsStart: 1,
     viewportColumnRenderingOffset: 40,
     viewportRowRenderingOffset: 'auto',
+    // autoColumnSize: {
+    //   // keep 40% of columns in sync (the rest of columns: async)
+    //   syncLimit: '1%',
+    //   // when calculating column widths, use column headers
+    //   useHeaders: true,
+    //   // when calculating column widths, use 10 samples of the same length
+    //   samplingRatio: 10,
+    //   // when calculating column widths, allow duplicate samples
+    //   allowSampleDuplicates: true,
+    // },
     // dropdownMenu: ['filter_by_value', 'filter_operators', 'filter_action_bar'],
   };
 
@@ -108,7 +118,7 @@ export class AppComponent implements OnInit {
       //   console.log('🚀 ~  this.data:', res[0]);
       // });
       this.fetchData();
-    }, 60000);
+    }, 61000);
   }
 
   setTimeStamp() {
@@ -249,16 +259,17 @@ export class AppComponent implements OnInit {
         title: 'COMPANY',
         width: 150,
         renderer: 'html',
+        className: 'wraptext',
       });
       hot.updateSettings({ columns: this.columnsData, data: this.data });
       console.log('=====>', this.columnsData.length);
 
-      hot.scrollViewportTo({
-        row: 10,
-        col: this.columnsData.length - 1,
-        verticalSnap: 'bottom',
-        horizontalSnap: 'end',
-      });
+      // hot.scrollViewportTo({
+      //   row: 10,
+      //   col: this.columnsData.length - 1,
+      //   verticalSnap: 'bottom',
+      //   horizontalSnap: 'end',
+      // });
     });
   }
   getDataWithDate() {
