@@ -220,7 +220,7 @@ export class AppComponent implements OnInit {
           e.getMinutes().toString().padStart(2, '0');
 
         this.columnsData.unshift({
-          data: 'records.' + t + '.price',
+          data: 'records.' + t + '.percentage',
           title: t,
           width: 35,
           // renderer: this.PriceRender,
