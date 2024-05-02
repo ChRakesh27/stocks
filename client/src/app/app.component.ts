@@ -201,7 +201,7 @@ export class AppComponent implements OnInit {
                 },
                 scales: {
                   x: {
-                    display: true,
+                    display: false,
                   },
                   y: {
                     display: true,
