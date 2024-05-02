@@ -7,7 +7,6 @@ import Handsontable from 'handsontable';
 import { registerAllModules } from 'handsontable/registry';
 import { Stock } from './model/stock.model';
 import { FormsModule } from '@angular/forms';
-import { ChartDemoComponent } from './chart-demo/chart-demo.component';
 import { Chart } from 'chart.js';
 registerAllModules();
 
@@ -16,13 +15,7 @@ registerAllModules();
   standalone: true,
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  imports: [
-    CommonModule,
-    RouterOutlet,
-    HotTableModule,
-    FormsModule,
-    ChartDemoComponent,
-  ],
+  imports: [CommonModule, RouterOutlet, HotTableModule, FormsModule],
 })
 export class AppComponent implements OnInit {
   title = 1;
