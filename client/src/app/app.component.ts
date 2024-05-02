@@ -7,18 +7,25 @@ import Handsontable from 'handsontable';
 import { registerAllModules } from 'handsontable/registry';
 import { Stock } from './model/stock.model';
 import { FormsModule } from '@angular/forms';
+import { ChartDemoComponent } from './chart-demo/chart-demo.component';
+import { Chart } from 'chart.js';
 registerAllModules();
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, HotTableModule, FormsModule],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
+  imports: [
+    CommonModule,
+    RouterOutlet,
+    HotTableModule,
+    FormsModule,
+    ChartDemoComponent,
+  ],
 })
 export class AppComponent implements OnInit {
   title = 1;
-
   id = 'hotInstance';
   data: Stock[] = [];
   setdate = '';
@@ -29,7 +36,7 @@ export class AppComponent implements OnInit {
 
   hotSettings: Handsontable.GridSettings = {
     columns: this.columnsData,
-    className: 'htCenter ',
+    className: 'htCenter',
     rowHeaders: true,
     columnHeaderHeight: 10,
     multiColumnSorting: true,
@@ -39,152 +46,37 @@ export class AppComponent implements OnInit {
     rowHeights: 10,
     comments: true,
     width: '100%',
-    height: '85vh',
+    height: '80vh',
     fixedColumnsStart: 1,
+    readOnly: true,
+    renderAllRows: true,
+
     // viewportColumnRenderingOffset: 40,
     // viewportRowRenderingOffset: 'auto',
     // dropdownMenu: ['filter_by_value', 'filter_operators', 'filter_action_bar'],
   };
 
   constructor(private service: AppService) {}
-
   ngOnInit() {
     let currentDate = new Date();
-
     let year = currentDate.getFullYear();
     let month = String(currentDate.getMonth() + 1).padStart(2, '0');
     let day = String(currentDate.getDate()).padStart(2, '0');
 
     let formattedDate = year + '-' + month + '-' + day;
     this.setdate = formattedDate;
+    // this.setdate = '2024-04-01';
     this.setCurrentDate = formattedDate;
     this.fetchData();
 
-    // this.service.getData(this.setdate).subscribe((res) => {
-    //   const hot = this.hotRegisterer.getInstance(this.id);
-    //   this.data = res;
-    //   let c = new Date();
-    //   let s = new Date(new Date().setHours(9, 15));
-    //   let e = new Date(new Date().setHours(15, 30));
-
-    //   if (s.getTime() > c.getTime()) {
-    //     console.log('no data');
-    //     return;
-    //   }
-
-    //   if (s.getTime() < c.getTime() && e.getTime() > c.getTime()) {
-    //     e = c;
-    //   }
-
-    //   let count = 0;
-    //   while (s.getTime() < e.getTime() && count !== 30) {
-    //     count++;
-    //     let t =
-    //       e.getHours().toString().padStart(2, '0') +
-    //       ':' +
-    //       e.getMinutes().toString().padStart(2, '0');
-    //     this.columnsData.push({
-    //       data: 'records.' + t,
-    //       title: t,
-    //       width: 35,
-    //       renderer: this.PriceRender,
-    //     });
-    //     e.setMinutes(e.getMinutes() - this.selectMin);
-    //   }
-
-    //   hot.updateSettings({ columns: this.columnsData, data: this.data });
-    // });
-
     setInterval(() => {
-      // this.service.getData().subscribe((res) => {
-      //   this.data = res;
-      //   this.title++;
-      //   console.log('🚀 ~  this.data:', res[0]);
-      // });
       this.fetchData();
     }, 61000);
   }
 
   setTimeStamp() {
-    // this.columnsData = [];
-    // let c = new Date();
-
-    // let s = new Date(new Date().setHours(9, 15));
-    // let e = new Date(new Date().setHours(15, 30));
-
-    // if (s.getTime() > c.getTime()) {
-    //   console.log('no data');
-    //   return;
-    // }
-
-    // if (s.getTime() < c.getTime() && e.getTime() > c.getTime()) {
-    //   e = c;
-    // }
-
-    // const hot = this.hotRegisterer.getInstance(this.id);
-    // let count = 0;
-    // while (s.getTime() <= e.getTime() && count != 30) {
-    //   count++;
-    //   let t =
-    //     e.getHours().toString().padStart(2, '0') +
-    //     ':' +
-    //     e.getMinutes().toString().padStart(2, '0');
-
-    //   this.columnsData.unshift({
-    //     data: 'records.' + t,
-    //     title: t,
-    //     width: 35,
-    //     // renderer: this.PriceRender,
-    //   });
-    //   e.setMinutes(e.getMinutes() - this.selectMin);
-    //   this.columnsData.unshift({
-    //     data: 'company',
-    //     title: 'COMPANY',
-    //     width: 150,
-    //   });
-    // }
-
-    // hot.updateSettings({ columns: this.columnsData });
-
     this.fetchData();
   }
-
-  // PriceRender = (
-  //   instance: Handsontable.Core,
-  //   TD: HTMLTableCellElement,
-  //   row: number,
-  //   col: number,
-  //   prop: string | number,
-  //   value: Record,
-  //   cellProperties: Handsontable.CellProperties
-  // ) => {
-  //   if (!value) {
-  //     TD.innerHTML = '';
-  //     return;
-  //   }
-  //   cellProperties.comment = {
-  //     value: value.price,
-  //     style: { width: 80, height: 35 },
-  //     readOnly: true,
-  //   };
-  //   TD.innerHTML = value.percentage;
-  // };
-  // compLinkRender = (
-  //   instance: Handsontable.Core,
-  //   TD: HTMLTableCellElement,
-  //   row: number,
-  //   col: number,
-  //   prop: string | number,
-  //   value: Record,
-  //   cellProperties: Handsontable.CellProperties
-  // ) => {
-  //   cellProperties.comment = {
-  //     value: 'this.data[row][col]',
-  //     style: { width: 80, height: 35 },
-  //     readOnly: true,
-  //   };
-  //   console.log('🚀 ~ this.data[row]:', this.data[row]);
-  // };
 
   fetchData() {
     if (this.setdate > this.setCurrentDate) {
@@ -205,7 +97,18 @@ export class AppComponent implements OnInit {
     }
     this.service.getData(this.setdate).subscribe((res) => {
       const hot = this.hotRegisterer.getInstance(this.id);
-      this.data = res;
+      this.data = res.map((item) => {
+        // console.log('🚀 ~ item.records:', item.records);
+        let arr = [];
+        for (let ele in item.records) {
+          arr.push({ x: ele, y: +item.records[ele].percentage });
+        }
+        item['rates'] = arr;
+        return item;
+      });
+
+      console.log('🚀 ~ this.data:', this.data);
+
       this.columnsData = [];
       while (s.getTime() < e.getTime()) {
         let t =
@@ -214,39 +117,103 @@ export class AppComponent implements OnInit {
           e.getMinutes().toString().padStart(2, '0');
 
         this.columnsData.unshift({
-          // data: 'records.' + t + '.percentage',
           data: 'records.' + t + '.pric_perc_Place',
           title: t,
-          width: 80,
+          width: 100,
+          height: 50,
           renderer: 'html',
-          // renderer: this.PriceRender,
         });
         e.setMinutes(e.getMinutes() - this.selectMin);
       }
+      this.columnsData.unshift(
+        {
+          data: 'link',
+          title: 'COMPANY',
+          height: 50,
+          width: 150,
+          className: 'wraptext',
+          renderer: 'html',
+        },
+        {
+          title: 'GRAPH',
+          width: 207,
+          renderer: function (
+            instance: any,
+            td: any,
+            row: any,
+            column: any,
+            prop: any,
+            value: any,
+            cellProperties: any
+          ) {
+            if (!td.hasChildNodes()) {
+              if (cellProperties.chart) {
+                cellProperties.chart.destroy();
+                cellProperties.chart = void 0;
+              }
+            } else if (cellProperties.chart) {
+              cellProperties.chart.update();
+              return td;
+            }
+            var rates = instance.getDataAtRowProp(row, 'rates');
+            var chartContainer = document.createElement('div');
+            chartContainer.className = 'chart';
+            var chartCanvas = document.createElement('canvas');
+            chartContainer.appendChild(chartCanvas);
+            td.appendChild(chartContainer);
+            const ctx2d = chartCanvas.getContext('2d');
+            if (!ctx2d) {
+              return;
+            }
 
-      // let t = '10:15';
+            const data = {
+              labels: [],
+              datasets: [
+                {
+                  label: '',
+                  data: rates,
+                  borderWidth: 2,
+                  pointRadius: 0,
+                  borderColor: '#444',
+                  fill: false,
+                  lineTension: 0,
+                },
+              ],
+            };
 
-      // this.columnsData.splice(1, 0, {
-      //   data: 'records.' + t,
-      //   title: t,
-      //   width: 35,
-      //   renderer: this.PriceRender,
-      // });
-      // t = '09:35';
+            cellProperties.chart = new Chart(ctx2d, {
+              type: 'line',
+              data: data,
+              options: {
+                responsive: true,
+                plugins: {
+                  legend: {
+                    display: false,
+                  },
+                  tooltip: {
+                    mode: 'index',
+                    intersect: false,
+                  },
+                },
+                hover: {
+                  mode: 'nearest',
+                  intersect: true,
+                },
+                scales: {
+                  x: {
+                    display: true,
+                  },
+                  y: {
+                    display: true,
+                  },
+                },
+              },
+            });
+            return td;
+          },
+        }
+      );
 
-      // this.columnsData.splice(1, 0, {
-      //   data: 'records.' + t,
-      //   title: t,
-      //   width: 35,
-      //   renderer: this.PriceRender,
-      // });
-      this.columnsData.unshift({
-        data: 'link',
-        title: 'COMPANY',
-        width: 150,
-        renderer: 'html',
-        className: 'wraptext',
-      });
       hot.updateSettings({ columns: this.columnsData, data: this.data });
       console.log('=====>', this.columnsData.length);
 
@@ -262,25 +229,3 @@ export class AppComponent implements OnInit {
     this.fetchData();
   }
 }
-
-// let count = 0;
-// while (s.getTime() <= e.getTime() && count !== 30) {
-//   count++;
-//   let t =
-//     s.getHours().toString().padStart(2, '0') +
-//     ':' +
-//     s.getMinutes().toString().padStart(2, '0');
-
-//   this.columnsData.splice(1, 0, {
-//     data: 'records.' + t,
-//     title: t,
-//     width: 35,
-//     renderer: this.PriceRender,
-//   });
-//   console.log('🚀 ~ t:', this.columnsData);
-//   s.setMinutes(s.getMinutes() + +this.selectMin);
-
-//   if (s.getMinutes() >= 60) {
-//     s.setHours(s.getHours() + 1, 0);
-//   }
-// }

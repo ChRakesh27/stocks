@@ -7,3 +7,44 @@
 .pos_red {
   color: red;
 }
+html {
+  --gray900: #44475b;
+  --gray800: #696c7c;
+  --gray700: #7c7e8c;
+  --gray600: #8f919d;
+  --gray500: #a1a3ad;
+  --gray400: #b0b2ba;
+  --gray300: #c7c8ce;
+  --gray200: #dddee1;
+  --gray150: #e9e9eb;
+  --gray100: #f0f0f2;
+  --gray50: #f8f8f8;
+  --green500: #00b386;
+  --green300: #66e3c4;
+  --green100: #ebf9f5;
+  --purple500: #5367ff;
+  --purple300: #84a4ff;
+  --purple100: #eef0ff;
+  --yellow500: #ffb61b;
+  --yellow100: #fff5e0;
+  --red500: #eb5b3c;
+  --red100: #fae9e5;
+  --dangerouslySetPrimaryBg: #fff;
+  --tempNbtPink: #f1e3f3;
+  --tempNbtYellow: #fff3c8;
+  --tempNbtBlue: #d6eeff;
+  --tempNbtGray: #f0f0f2;
+  --tempNbtRed: #ffc7bb;
+}
+
+::ng-deep .chart {
+  position: relative;
+  height: 94px !important;
+  width: 192px !important;
+  /* overflow: hidden; */
+}
+
+::ng-deep .chart canvas {
+  max-height: 100% !important;
+  max-width: 100% !important;
+}
