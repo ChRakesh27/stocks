@@ -1,0 +1,11 @@
+/* ::ng-deep .chart {
+  position: relative;
+  height: 94px !important;
+  width: 192px !important;
+  overflow: hidden;
+}
+
+::ng-deep .chart canvas {
+  max-height: 100% !important;
+  max-width: 100% !important;
+} */
