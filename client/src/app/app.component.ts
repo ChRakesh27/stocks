@@ -26,6 +26,7 @@ registerAllModules();
 })
 export class AppComponent implements OnInit {
   title = 1;
+  isTimeSet = true;
   id = 'hotInstance';
   data: Stock[] = [];
   setdate = '';
@@ -98,7 +99,6 @@ export class AppComponent implements OnInit {
     this.service.getData(this.setdate).subscribe((res) => {
       const hot = this.hotRegisterer.getInstance(this.id);
       this.data = res.map((item) => {
-        // console.log('🚀 ~ item.records:', item.records);
         let arr = [];
         for (let ele in item.records) {
           arr.push({ x: ele, y: +item.records[ele].percentage });
@@ -106,8 +106,6 @@ export class AppComponent implements OnInit {
         item['rates'] = arr;
         return item;
       });
-
-      console.log('🚀 ~ this.data:', this.data);
 
       this.columnsData = [];
       while (s.getTime() < e.getTime()) {
@@ -138,30 +136,28 @@ export class AppComponent implements OnInit {
           title: 'GRAPH',
           width: 207,
           renderer: function (
-            instance: any,
-            td: any,
+            instance: Handsontable.Core,
+            td: HTMLTableCellElement,
             row: any,
             column: any,
             prop: any,
             value: any,
-            cellProperties: any
+            cellProperties: Handsontable.CellProperties
           ) {
-            if (!td.hasChildNodes()) {
-              if (cellProperties.chart) {
-                cellProperties.chart.destroy();
-                cellProperties.chart = void 0;
-              }
-            } else if (cellProperties.chart) {
-              cellProperties.chart.update();
-              return td;
+            const rates = instance.getDataAtRowProp(row, 'rates');
+            if (td.hasChildNodes()) {
+              td.childNodes.forEach((child) => {
+                td.removeChild(child);
+              });
             }
-            var rates = instance.getDataAtRowProp(row, 'rates');
-            var chartContainer = document.createElement('div');
+
+            const chartContainer = document.createElement('div');
             chartContainer.className = 'chart';
-            var chartCanvas = document.createElement('canvas');
+            const chartCanvas = document.createElement('canvas');
             chartContainer.appendChild(chartCanvas);
             td.appendChild(chartContainer);
             const ctx2d = chartCanvas.getContext('2d');
+
             if (!ctx2d) {
               return;
             }
@@ -201,7 +197,7 @@ export class AppComponent implements OnInit {
                 },
                 scales: {
                   x: {
-                    display: false,
+                    display: true,
                   },
                   y: {
                     display: true,
@@ -209,6 +205,7 @@ export class AppComponent implements OnInit {
                 },
               },
             });
+
             return td;
           },
         }
