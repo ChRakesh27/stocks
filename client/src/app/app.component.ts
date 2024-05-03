@@ -48,7 +48,7 @@ export class AppComponent implements OnInit {
     comments: true,
     width: '100%',
     height: '80vh',
-    fixedColumnsStart: 1,
+    fixedColumnsStart: 2,
     readOnly: true,
     renderAllRows: true,
 
